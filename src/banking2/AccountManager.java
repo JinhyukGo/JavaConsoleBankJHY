@@ -1,23 +1,6 @@
-package banking1;
+package banking2;
 
 import java.util.Scanner;
-
-public class Account {
-	String num, name;
-	int balance;
-	
-	public Account(String num, String name, int balance) {
-		this.num = num;
-		this.name = name;
-		this.balance = balance;
-	}
-	public void showAccInfo() {
-		System.out.println("----------------------------");
-		System.out.println("계좌번호 : " + num);
-		System.out.println("이름 : " + name);
-		System.out.println("잔액 : " + balance);
-	}
-}
 
 class AccountManager {
 	
@@ -60,7 +43,7 @@ class AccountManager {
 			}
 		}
 	}
-	
+
 	private Account[] bankAccount;
 	private int accountList;
 	
@@ -70,13 +53,14 @@ class AccountManager {
 	}
 	
 	String accNum, accName;
-	int accBalance, deposit;
+	int accBalance, deposit, accinterest;
 	
 	public void makeAccount() {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("계좌번호 : "); accNum = scan.nextLine();
 		System.out.println("이름 : "); accName = scan.nextLine();
 		System.out.println("잔액 : "); accBalance = scan.nextInt();
+		System.out.println("이율 : "); accinterest = scan.nextInt();
 		
 		bankAccount[accountList++] = new Account(accNum, accName, accBalance);
 		
