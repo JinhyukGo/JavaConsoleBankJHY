@@ -10,7 +10,7 @@ class AccountManager {
 		System.out.println(" 1.신규 계좌개설(신용도 A)");
 		System.out.println(" 2.신규 계좌개설(신용도 B)");
 		System.out.println(" 3.신규 계좌개설(신용도 C)");
-		System.out.println(" 4.신규 계좌개설(신용도 D)");
+		System.out.println(" 4.신규 계좌개설(신용도 없음)");
 		System.out.print(" 5.입금   ");
 		System.out.println("6.출금");
 		System.out.println(" 7.개설된 계좌 정보 출력 ");
@@ -124,7 +124,7 @@ class AccountManager {
 	}
 	public void makeAccountD() {
 		
-		String accGrade = "D";
+		String accGrade = "없음";
 		String accType = "보통예금계좌";
 				
 		Scanner scan = new Scanner(System.in);
@@ -142,6 +142,8 @@ class AccountManager {
 	}
 	public void depositMoney() {
 		
+		int accountRest;
+		
 		boolean isFind = false;
 		Scanner scan = new Scanner(System.in);
 		System.out.print("계좌번호를 입력하세요 : ");
@@ -149,18 +151,6 @@ class AccountManager {
 		
 		for(int i = 0 ; i<accountList ; i++) {
 			if(searchName.compareTo(bankAccount[i].num)==0) {
-				
-				int accountRest;
-
-				if(accGrade=="A") {
-					accountRest = bankAccount[i].balance + bankAccount[i].balance*(accInterest + 7) + deposit;			
-				} else if(accGrade=="B") {
-					accountRest = bankAccount[i].balance + bankAccount[i].balance*(accInterest + 4) + deposit;		
-				} else if(accGrade=="C") {
-					accountRest = bankAccount[i].balance + bankAccount[i].balance*(accInterest + 2) + deposit;		
-				} else if(accGrade=="D") {
-					accountRest = bankAccount[i].balance + bankAccount[i].balance*accInterest + deposit;
-				}
 					
 				System.out.println("= 입력하신 계좌정보를 찾았습니다. =");
 				
@@ -168,7 +158,7 @@ class AccountManager {
 				System.out.println("============================");
 				
 				System.out.println("입금액 : "); deposit = scan.nextInt();
-				System.out.println(" 잔액 : "+accountRest+"원");
+				System.out.println(" 잔액 : "+(bankAccount[i].balance + bankAccount[i].balance*accountRest + deposit)+"원");
 				System.out.println("============================");
 			
 				bankAccount[i].balance = bankAccount[i].balance + deposit;
@@ -180,6 +170,11 @@ class AccountManager {
 			System.out.println("============================");
 		}
 	}
+	private int NormalAccount(int accountRest) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	public void withdrawMoney() {
 		boolean isFind = false;
 		Scanner scan = new Scanner(System.in);

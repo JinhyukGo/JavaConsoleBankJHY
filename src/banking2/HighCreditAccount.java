@@ -7,4 +7,16 @@ public class HighCreditAccount {
 
 	}
 
+	
+
+
+	if(accGrade=="A") {
+		accountRest = bankAccount[i].balance + bankAccount[i].balance*(accInterest + 7) + deposit;			
+	} else if(accGrade=="B") {
+		accountRest = bankAccount[i].balance + bankAccount[i].balance*(accInterest + 4) + deposit;		
+	} else if(accGrade=="C") {
+		accountRest = bankAccount[i].balance + bankAccount[i].balance*(accInterest + 2) + deposit;		
+	} else if(accGrade=="D") {
+		accountRest = bankAccount[i].balance + bankAccount[i].balance*accInterest + deposit;
+	}
 }

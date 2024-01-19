@@ -2,7 +2,7 @@ package banking2;
 
 public class NormalAccount extends Account {
 	
-	int interest;
+	int interest, gradeRest;
 	String grade, type;
 
 	public NormalAccount(String num, String name, int balance, int interest, String grade, String type) {
@@ -18,4 +18,10 @@ public class NormalAccount extends Account {
 		System.out.println(" 신용도 : " + grade);
 		System.out.println(" 계좌타입 : "+ type);
 	}
+	public void accountRest(int accountRest, int gradeRest) {
+		super(accountRest);
+		this.gradeRest = gradeRest;
+
+	}
+
 }

@@ -2,7 +2,7 @@ package banking2;
 
 public class Account {
 	String num, name;
-	int balance;
+	int balance, accountRest;
 	
 	public Account(String num, String name, int balance) {
 		this.num = num;
@@ -14,5 +14,8 @@ public class Account {
 		System.out.println(" 계좌번호 : " + num);
 		System.out.println(" 이름 : " + name);
 		System.out.println(" 잔액 : " + balance);
+	}
+	public void accountRest(int accountRest) {
+		this.accountRest = accountRest;
 	}
 }
