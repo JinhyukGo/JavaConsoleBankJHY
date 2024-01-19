@@ -66,7 +66,6 @@ public class Account {
 		// TODO Auto-generated method stub
 		
 	}
-
 }
 
 class AccountManager {
