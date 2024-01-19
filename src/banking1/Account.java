@@ -90,28 +90,43 @@ class AccountManager {
 		System.out.println("신규 계좌 개설이 완료되었습니다.");
 	}
 	public void depositMoney() {
-//		
-//		boolean isFind = false;
-//		Scanner scan = new Scanner(System.in);
-//		System.out.print("계좌번호를 입력하세요 : ");
-//		String searchName = scan.nextLine();
-//		
-//		for(int i = 0 ; i<accountList ; i++) {
-//			if(searchName.compareTo(bankAccount[i].accNum)==0) {
-//				bankAccount[i].showAccInfo();
-//				System.out.println("** 입력하신 계좌정보를 찾았습니다. **");
-//				System.out.println("입금액 : "); deposit = scan.nextInt();
-//				System.out.println(" 잔액 : "+(accBalance+deposit)+"원");
-//				isFind = true;
-//			}
-//		}
-//		if(isFind==false) {
-//			System.out.println("** 입력하신 계좌정보와 일치하는 계좌가 없습니다. **");
-//		} // end of searchInfo
-//		
+		
+		boolean isFind = false;
+		Scanner scan = new Scanner(System.in);
+		System.out.print("계좌번호를 입력하세요 : ");
+		String searchName = scan.nextLine();
+		
+		for(int i = 0 ; i<accountList ; i++) {
+			if(searchName.compareTo(bankAccount[i].num)==0) {
+				bankAccount[i].showAccInfo();
+				System.out.println("** 입력하신 계좌정보를 찾았습니다. **");
+				System.out.println("입금액 : "); deposit = scan.nextInt();
+				System.out.println(" 잔액 : "+(accBalance+deposit)+"원");
+				isFind = true;
+			}
+		}
+		if(isFind==false) {
+			System.out.println("** 입력하신 계좌정보와 일치하는 계좌가 없습니다. **");
+		}
 	}
 	public void withdrawMoney() {
+		boolean isFind = false;
+		Scanner scan = new Scanner(System.in);
+		System.out.print("계좌번호를 입력하세요 : ");
+		String searchName = scan.nextLine();
 		
+		for(int i = 0 ; i<accountList ; i++) {
+			if(searchName.compareTo(bankAccount[i].num)==0) {
+				bankAccount[i].showAccInfo();
+				System.out.println("** 입력하신 계좌정보를 찾았습니다. **");
+				System.out.println("출금액 : "); deposit = scan.nextInt();
+				System.out.println(" 잔액 : "+(accBalance-deposit)+"원");
+				isFind = true;
+			}
+		}
+		if(isFind==false) {
+			System.out.println("** 입력하신 계좌정보와 일치하는 계좌가 없습니다. **");
+		}
 	}
 	public void showAccInfo() {
 		for(int i = 0 ; i<accountList ; i++) {
