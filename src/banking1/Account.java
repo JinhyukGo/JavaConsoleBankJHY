@@ -86,6 +86,9 @@ class AccountManager {
 		System.out.println("계좌번호 : "); accNum = scan.nextLine();
 		System.out.println("이름 : "); accName = scan.nextLine();
 		System.out.println("잔액 : "); accBalance = scan.nextInt();
+		
+		bankAccount[accountList++] = new Bank(accNum, accName, accBalance);
+		
 		System.out.println("신규 계좌 개설이 완료되었습니다.");
 	}
 	public void depositMoney() {
@@ -119,7 +122,7 @@ class AccountManager {
 				bankAccount[i].showAccInfo();
 				System.out.println("** 입력하신 계좌정보를 찾았습니다. **");
 				System.out.println("출금액 : "); deposit = scan.nextInt();
-				System.out.println(" 잔액 : "+(accBalance-deposit)+"원");
+				System.out.println(" 잔액 : "+(accBalance-deposit)+"원");				
 				isFind = true;
 			}
 		}
