@@ -52,15 +52,16 @@ class AccountManager {
 		accountList = 0;
 	}
 	
-	String accNum, accName;
-	int accBalance, deposit, accinterest;
+	String accNum, accName, accGrade;
+	int accBalance, deposit, accInterest;
 	
 	public void makeAccount() {
 		Scanner scan = new Scanner(System.in);
+		System.out.println("신용도 : "); accGrade = scan.nextLine();
 		System.out.println("계좌번호 : "); accNum = scan.nextLine();
 		System.out.println("이름 : "); accName = scan.nextLine();
 		System.out.println("잔액 : "); accBalance = scan.nextInt();
-		System.out.println("이율 : "); accinterest = scan.nextInt();
+		System.out.println("이율 : "); accInterest = scan.nextInt();
 		
 		bankAccount[accountList++] = new Account(accNum, accName, accBalance);
 		
