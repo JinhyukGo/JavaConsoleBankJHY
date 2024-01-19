@@ -11,8 +11,8 @@ public class Account {
 	}
 	public void showAccInfo() {
 		System.out.println("----------------------------");
-		System.out.println("계좌번호 : " + num);
-		System.out.println("이름 : " + name);
-		System.out.println("잔액 : " + balance);
+		System.out.println(" 계좌번호 : " + num);
+		System.out.println(" 이름 : " + name);
+		System.out.println(" 잔액 : " + balance);
 	}
 }
