@@ -65,12 +65,13 @@ class AccountManager {
 	}
 	
 	String accNum, accName, accGrade, accType;
-	int accBalance, deposit, accInterest;
+	int accBalance, deposit, accInterest, balanceInt, accGradeRest, accFinalRest;
 	
 	public void makeAccountA() {
 		
 		String accGrade = "A";
 		String accType = "신용신뢰계좌";
+		int accGradeRest = 7;
 		
 		Scanner scan = new Scanner(System.in);
 		System.out.println("계좌번호 : "); accNum = scan.nextLine();
@@ -79,9 +80,9 @@ class AccountManager {
 		System.out.println("이율 : "); accInterest = scan.nextInt();
 		System.out.println("신용도 : "+accGrade);
 		System.out.println("계좌타입 : "+accType);
+		System.out.println("추가이율 : "+accGradeRest + "%");
 		
-		
-		bankAccount[accountList++] = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
+		bankAccount[accountList++] = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
 		
 		System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
 		System.out.println("============================");
@@ -90,6 +91,7 @@ class AccountManager {
 		
 		String accGrade = "B";
 		String accType = "신용신뢰계좌";
+		int accGradeRest = 4;
 		
 		Scanner scan = new Scanner(System.in);
 		System.out.println("계좌번호 : "); accNum = scan.nextLine();
@@ -98,8 +100,9 @@ class AccountManager {
 		System.out.println("이율 : "); accInterest = scan.nextInt();
 		System.out.println("신용도 : "+accGrade);
 		System.out.println("계좌타입 : "+accType);
+		System.out.println("추가이율 : "+accGradeRest);
 		
-		bankAccount[accountList++] = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
+		bankAccount[accountList++] = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
 		
 		System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
 		System.out.println("============================");
@@ -108,6 +111,7 @@ class AccountManager {
 		
 		String accGrade = "C";
 		String accType = "신용신뢰계좌";
+		int accGradeRest = 2;
 				
 		Scanner scan = new Scanner(System.in);
 		System.out.println("계좌번호 : "); accNum = scan.nextLine();
@@ -116,8 +120,9 @@ class AccountManager {
 		System.out.println("이율 : "); accInterest = scan.nextInt();
 		System.out.println("신용도 : "+accGrade);
 		System.out.println("계좌타입 : "+accType);
+		System.out.println("추가이율 : "+accGradeRest);
 		
-		bankAccount[accountList++] = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
+		bankAccount[accountList++] = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
 		
 		System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
 		System.out.println("============================");
@@ -141,27 +146,29 @@ class AccountManager {
 		System.out.println("============================");
 	}
 	public void depositMoney() {
-		
-		int accountRest;
-		
+			
 		boolean isFind = false;
 		Scanner scan = new Scanner(System.in);
 		System.out.print("계좌번호를 입력하세요 : ");
 		String searchName = scan.nextLine();
 		
 		for(int i = 0 ; i<accountList ; i++) {
+			
+			balanceInt = (int) (bankAccount[i].balance * (accInterest + accGradeRest) / 100);
+			
 			if(searchName.compareTo(bankAccount[i].num)==0) {
 					
 				System.out.println("= 입력하신 계좌정보를 찾았습니다. =");
 				
 				bankAccount[i].showAccInfo();
 				System.out.println("============================");
-				
-				System.out.println("입금액 : "); deposit = scan.nextInt();
-				System.out.println(" 잔액 : "+(bankAccount[i].balance + bankAccount[i].balance*accountRest + deposit)+"원");
+
+				System.out.println(" 입금액 : "); deposit = scan.nextInt();
+				System.out.println(" 이자 : " + balanceInt); 
+				System.out.println(" 최종 잔액 : "+(bankAccount[i].balance + balanceInt + deposit)+"원");
 				System.out.println("============================");
 			
-				bankAccount[i].balance = bankAccount[i].balance + deposit;
+				bankAccount[i].balance = bankAccount[i].balance + balanceInt + deposit;
 				isFind = true;
 			}
 		}
