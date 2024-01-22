@@ -18,8 +18,4 @@ public class NormalAccount extends Account {
 		System.out.println(" 신용도 : " + grade);
 		System.out.println(" 계좌타입 : "+ type);
 	}
-	@Override
-	public void interestCal() {
-		super.interest = interest;
-	}
 }

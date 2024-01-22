@@ -15,8 +15,4 @@ public class Account {
 		System.out.println(" 이름 : " + name);
 		System.out.println(" 잔액 : " + balance);
 	}
-	public void interestCal() {
-		this.interest = interest;
-		
-	}
 }
