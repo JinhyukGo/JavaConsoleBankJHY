@@ -83,21 +83,33 @@ class AccountManager {
 		System.out.println("이름 : "); accName = scan.nextLine();
 		System.out.println("입금 : "); accBalance = scan.nextInt();
 		System.out.println("이율 : "); accInterest = scan.nextInt();
+		scan.nextLine();
 
-		if (choice == 2) {
+		if(choice == 1) {
+			accType = "보통 계좌";
+			accGrade = "없음";
+			accGradeRest = 0;
+		}
+		
+		if(choice == 2) {
 			System.out.println("신용도 : "); accGrade = scan.nextLine();
 		
-			if(accGrade.equals("A")) {
+			if(accGrade.equalsIgnoreCase("A")) {
+				accType = "신용신뢰 계좌";
+				accGradeRest = 7;
 				System.out.println("추가 이율 : 7%");
-			} else if(accGrade.equals("B")) {
+			} else if(accGrade.equalsIgnoreCase("B")) {
+				accType = "신용신뢰 계좌";
+				accGradeRest = 4;
 				System.out.println("추가 이율 : 4%");
 			} else {
+				accType = "신용신뢰 계좌";
+				accGradeRest = 2;
 				System.out.println("추가 이율 : 2%");
-			}		
+			}
 		}
-//		System.out.println("신용도 : "+accGrade);
-//		System.out.println("계좌타입 : "+accType);
-//		System.out.println("추가이율 : "+accGradeRest + "%");
+
+		accFinalRest = accInterest + accGradeRest;
 		
 		bankAccount[accountList++] = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
 		
@@ -123,6 +135,7 @@ class AccountManager {
 				System.out.println("============================");
 
 				System.out.println(" 입금액 : "); deposit = scan.nextInt();
+				System.out.println(" 기존 잔액 : " + bankAccount[i].balance); 
 				System.out.println(" 이자 : " + balanceInt); 
 				System.out.println(" 최종 잔액 : "+(bankAccount[i].balance + balanceInt + deposit)+"원");
 				System.out.println("============================");
