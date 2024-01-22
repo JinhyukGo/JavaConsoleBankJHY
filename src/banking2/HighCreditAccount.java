@@ -9,23 +9,6 @@ public class HighCreditAccount extends NormalAccount {
 		this.gradeRest = gradeRest;
 		this.finalRest = finalRest;		
 	}
-
-	@Override
-	public void interestCal() {
-		super.interest = interest;
-		
-		if(grade == "A") {
-			gradeRest = 7;
-		} else if(grade == "B") {
-			gradeRest = 4;
-		} else if(grade == "C") {
-			gradeRest = 2;
-		} else {
-			gradeRest = 0;
-		}
-
-		finalRest = interest + gradeRest;		
-	}
 	
 	@Override
 	public void showAccInfo() {
