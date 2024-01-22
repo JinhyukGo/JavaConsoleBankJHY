@@ -7,14 +7,11 @@ class AccountManager {
 	public static void showMenu() {
 		System.out.println("=== 원하시는 메뉴를 선택하세요. ===");
 		System.out.println("");
-		System.out.println(" 1.신규 계좌개설(신용도 A)");
-		System.out.println(" 2.신규 계좌개설(신용도 B)");
-		System.out.println(" 3.신규 계좌개설(신용도 C)");
-		System.out.println(" 4.신규 계좌개설(신용도 없음)");
-		System.out.print(" 5.입금   ");
-		System.out.println("6.출금");
-		System.out.println(" 7.개설된 계좌 정보 출력 ");
-		System.out.println(" 8.프로그램 종료");
+		System.out.println(" 1.신규 계좌개설");
+		System.out.print(" 2.입금   ");
+		System.out.println("3.출금");
+		System.out.println(" 4.개설된 계좌 정보 출력 ");
+		System.out.println(" 5.프로그램 종료");
 		System.out.println("");
 		System.out.println("============================");
 	}
@@ -29,27 +26,18 @@ class AccountManager {
 			int choice = scan.nextInt();
 			switch(choice) {
 			case 1:
-				handler.makeAccountA();
+				handler.makeAccount();
 				break;					
 			case 2:
-				handler.makeAccountB();
-			break;					
-			case 3:
-				handler.makeAccountC();
-			break;					
-			case 4:
-				handler.makeAccountD();
-				break;					
-			case 5:
 				handler.depositMoney();
 				break;
-			case 6:
+			case 3:
 				handler.withdrawMoney();
 				break;
-			case 7:
+			case 4:
 				handler.showAccInfo();
 				break;
-			case 8:
+			case 5:
 				System.out.println("프로그램 종료");
 				return;
 			}
@@ -67,80 +55,51 @@ class AccountManager {
 	String accNum, accName, accGrade, accType;
 	int accBalance, deposit, accInterest, balanceInt, accGradeRest, accFinalRest;
 	
-	public void makeAccountA() {
+	public void makeAccount() {
+
+		int choice = 0;
+		boolean gradeSelect = false;
 		
-		String accGrade = "A";
-		String accType = "신용신뢰계좌";
-		int accGradeRest = 7;
+		while(!gradeSelect) {
+			System.out.println("= 신규 계좌의 종류를 선택하세요. =");
+			System.out.println("");
+			System.out.println(" 1.보통 계좌");
+			System.out.println(" 2.신용신뢰 계좌");
+			System.out.println("");
+			System.out.println("계좌 선택 : ");
+			
+			Scanner scan = new Scanner(System.in);
+			choice = scan.nextInt();
+			
+			if(choice == 1 || choice == 2) {
+				gradeSelect = true;
+			} else {
+				System.out.println("정확한 종류를 선택하세요.");
+			}
+		}
 		
 		Scanner scan = new Scanner(System.in);
 		System.out.println("계좌번호 : "); accNum = scan.nextLine();
 		System.out.println("이름 : "); accName = scan.nextLine();
-		System.out.println("잔액 : "); accBalance = scan.nextInt();
+		System.out.println("입금 : "); accBalance = scan.nextInt();
 		System.out.println("이율 : "); accInterest = scan.nextInt();
-		System.out.println("신용도 : "+accGrade);
-		System.out.println("계좌타입 : "+accType);
-		System.out.println("추가이율 : "+accGradeRest + "%");
+
+		if (choice == 2) {
+			System.out.println("신용도 : "); accGrade = scan.nextLine();
+		
+			if(accGrade.equals("A")) {
+				System.out.println("추가 이율 : 7%");
+			} else if(accGrade.equals("B")) {
+				System.out.println("추가 이율 : 4%");
+			} else {
+				System.out.println("추가 이율 : 2%");
+			}		
+		}
+//		System.out.println("신용도 : "+accGrade);
+//		System.out.println("계좌타입 : "+accType);
+//		System.out.println("추가이율 : "+accGradeRest + "%");
 		
 		bankAccount[accountList++] = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
-		
-		System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
-		System.out.println("============================");
-	}
-	public void makeAccountB() {
-		
-		String accGrade = "B";
-		String accType = "신용신뢰계좌";
-		int accGradeRest = 4;
-		
-		Scanner scan = new Scanner(System.in);
-		System.out.println("계좌번호 : "); accNum = scan.nextLine();
-		System.out.println("이름 : "); accName = scan.nextLine();
-		System.out.println("잔액 : "); accBalance = scan.nextInt();
-		System.out.println("이율 : "); accInterest = scan.nextInt();
-		System.out.println("신용도 : "+accGrade);
-		System.out.println("계좌타입 : "+accType);
-		System.out.println("추가이율 : "+accGradeRest);
-		
-		bankAccount[accountList++] = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
-		
-		System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
-		System.out.println("============================");
-	}
-	public void makeAccountC() {
-		
-		String accGrade = "C";
-		String accType = "신용신뢰계좌";
-		int accGradeRest = 2;
-				
-		Scanner scan = new Scanner(System.in);
-		System.out.println("계좌번호 : "); accNum = scan.nextLine();
-		System.out.println("이름 : "); accName = scan.nextLine();
-		System.out.println("잔액 : "); accBalance = scan.nextInt();
-		System.out.println("이율 : "); accInterest = scan.nextInt();
-		System.out.println("신용도 : "+accGrade);
-		System.out.println("계좌타입 : "+accType);
-		System.out.println("추가이율 : "+accGradeRest);
-		
-		bankAccount[accountList++] = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
-		
-		System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
-		System.out.println("============================");
-	}
-	public void makeAccountD() {
-		
-		String accGrade = "없음";
-		String accType = "보통예금계좌";
-				
-		Scanner scan = new Scanner(System.in);
-		System.out.println("계좌번호 : "); accNum = scan.nextLine();
-		System.out.println("이름 : "); accName = scan.nextLine();
-		System.out.println("잔액 : "); accBalance = scan.nextInt();
-		System.out.println("이율 : "); accInterest = scan.nextInt();
-		System.out.println("신용도 : "+accGrade);
-		System.out.println("계좌타입 : "+accType);
-		
-		bankAccount[accountList++] = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
 		
 		System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
 		System.out.println("============================");
