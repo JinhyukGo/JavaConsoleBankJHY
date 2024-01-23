@@ -1,5 +1,7 @@
 package banking4;
 
+import java.util.Objects;
+
 public class NormalAccount extends Account {
 	
 	int interest;
@@ -20,15 +22,15 @@ public class NormalAccount extends Account {
 	}
 	@Override
 	public int hashCode() {
-		return super.num.hashCode();
+        return Objects.hash(num);
 	}
 	@Override
 	public boolean equals(Object obj) {
-		NormalAccount accountobj = (NormalAccount) obj;
-		if(accountobj.num.equals(super.num)) {
-			return true;
-		} else {
-			return false;
-		}
+        if (this == obj) 
+        	return true;
+        if (obj == null || getClass() != obj.getClass())
+        	return false;
+        Account account = (Account) obj;
+        return num.equals(account.num);
 	}
 }

@@ -94,63 +94,73 @@ class AccountManager {
 			}
 		}
 		
-		Scanner scan = new Scanner(System.in);
-		System.out.println("계좌번호 : "); accNum = scan.nextLine();
-		
 		NormalAccount normal = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
 		HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
 		
-		boolean bnum = bankAccount.add(high);
+		Scanner scan = new Scanner(System.in);
+		System.out.println("계좌번호 : "); accNum = scan.nextLine();
+		System.out.println("이름 : "); accName = scan.nextLine();
+		System.out.println("입금 : "); accBalance = scan.nextInt();
 		
-		if(bnum == false) {
-			System.out.println("= 입력하신 계좌정보와 동일한 계좌를 찾았습니다. =");
-			for(Account acc : bankAccount) {
-				if(accNum.compareTo(acc.num)==0) {
-				acc.showAccInfo();
-				System.out.println("============================");
-				}
-			}
-			
-			int choice2 = 0;
-			boolean makeSelect = false;
-
-			while(!makeSelect) {
-				System.out.println("= 원하시는 메뉴를 선택하세요. =");
-				System.out.println("");
-				System.out.println(" 1.기존 계좌에 덮어쓰기");
-				System.out.println(" 2.기존 계좌 유지 후 종료");
-				System.out.println("");
-				System.out.println("메뉴 선택 : ");
-				
-				Scanner scan2 = new Scanner(System.in);
-				choice2 = scan2.nextInt();
-				
-				if(choice2 == 1 || choice2 == 2) {
-					makeSelect = true;
-				} else {
-					System.out.println("정확한 메뉴를 선택하세요.");
-				}
-			}
-			
-			System.out.println("============================");
-		} else {
-			System.out.println("이름 : "); accName = scan.nextLine();
-			System.out.println("입금 : "); accBalance = scan.nextInt();
-			
-			if(accBalance < 0) {
-				System.out.println("입금액은 음수가 될 수 없습니다.");
-			} else if (accBalance % 500 > 0) {
-				System.out.println("입금은 500원 단위로만 가능합니다.");
-			} else {	
-				System.out.println("이율 : "); accInterest = scan.nextInt();
-				scan.nextLine();	
-			}
+		if(accBalance < 0) {
+			System.out.println("입금액은 음수가 될 수 없습니다.");
+		} else if (accBalance % 500 > 0) {
+			System.out.println("입금은 500원 단위로만 가능합니다.");
+		} else {	
+			System.out.println("이율 : "); accInterest = scan.nextInt();
+			scan.nextLine();
 			
 			if(choice == 1) {
 				accType = "보통 계좌";
 				accGrade = "없음";
-				bankAccount.add(normal);
+//				bankAccount.add(normal);
+				
+				boolean nCheck = bankAccount.add(normal);
+				
+				if(nCheck == false) {
+					System.out.println("= 입력하신 계좌정보와 동일한 계좌를 찾았습니다. =");
+					for(Account acc : bankAccount) {
+						if(accNum.compareTo(acc.num)==0) {
+							acc.showAccInfo();
+							System.out.println("============================");
+						}
+					}
+					
+					int choice2 = 0;
+					boolean makeSelect = false;
+					
+					while(!makeSelect) {
+						System.out.println("= 원하시는 메뉴를 선택하세요. =");
+						System.out.println("");
+						System.out.println(" 1.기존 계좌에 덮어쓰기");
+						System.out.println(" 2.기존 계좌 유지 후 종료");
+						System.out.println("");
+						System.out.println("메뉴 선택 : ");
+						
+						Scanner scan2 = new Scanner(System.in);
+						choice2 = scan2.nextInt();
+						
+						if(choice2 == 1) {
+							bankAccount.remove(normal);
+							bankAccount.add(normal);
+							System.out.println("= 기존 계좌 덮어쓰기가 완료되었습니다. =");
+							System.out.println("============================");
+							return;
+						} else if(choice2 == 2) {
+							System.out.println("= 신규 계좌 개설이 종료되었습니다. =");
+							System.out.println("============================");	
+							return;
+						} else {
+							System.out.println("정확한 메뉴를 선택하세요.");						
+						}
+					}			
+				} else if(nCheck == true) {
+					System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
+					System.out.println("============================");
+				}
+				
 			}
+		
 			if(choice == 2) {
 				System.out.println("신용도 : "); accGrade = scan.nextLine();
 			
@@ -173,10 +183,7 @@ class AccountManager {
 					accFinalRest = accInterest + accGradeRest;
 					bankAccount.add(high);
 				}
-			}
-		
-			System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
-			System.out.println("============================");
+			}		
 		}
 	}
 	public void depositMoney() {
