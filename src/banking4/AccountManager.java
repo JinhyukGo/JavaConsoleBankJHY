@@ -93,10 +93,7 @@ class AccountManager {
 				System.out.println("정확한 종류를 선택하세요.");
 			}
 		}
-		
-		NormalAccount normal = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
-		HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
-		
+				
 		Scanner scan = new Scanner(System.in);
 		System.out.println("계좌번호 : "); accNum = scan.nextLine();
 		System.out.println("이름 : "); accName = scan.nextLine();
@@ -113,8 +110,8 @@ class AccountManager {
 			if(choice == 1) {
 				accType = "보통 계좌";
 				accGrade = "없음";
-//				bankAccount.add(normal);
-				
+
+				NormalAccount normal = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
 				boolean nCheck = bankAccount.add(normal);
 				
 				if(nCheck == false) {
@@ -157,8 +154,7 @@ class AccountManager {
 				} else if(nCheck == true) {
 					System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
 					System.out.println("============================");
-				}
-				
+				}	
 			}
 		
 			if(choice == 2) {
@@ -168,20 +164,152 @@ class AccountManager {
 					accType = "신용신뢰 계좌";
 					accGradeRest = 7;
 					System.out.println("추가 이율 : 7%");
-					accFinalRest = accInterest + accGradeRest;
-					bankAccount.add(high);
+					
+					accFinalRest = accInterest + accGradeRest;					
+					HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
+					boolean nCheck = bankAccount.add(high);
+					
+					if(nCheck == false) {
+						System.out.println("= 입력하신 계좌정보와 동일한 계좌를 찾았습니다. =");
+						for(Account acc : bankAccount) {
+							if(accNum.compareTo(acc.num)==0) {
+								acc.showAccInfo();
+								System.out.println("============================");
+							}
+						}
+						
+						int choice2 = 0;
+						boolean makeSelect = false;
+						
+						while(!makeSelect) {
+							System.out.println("= 원하시는 메뉴를 선택하세요. =");
+							System.out.println("");
+							System.out.println(" 1.기존 계좌에 덮어쓰기");
+							System.out.println(" 2.기존 계좌 유지 후 종료");
+							System.out.println("");
+							System.out.println("메뉴 선택 : ");
+							
+							Scanner scan2 = new Scanner(System.in);
+							choice2 = scan2.nextInt();
+							
+							if(choice2 == 1) {
+								bankAccount.remove(high);
+								bankAccount.add(high);
+								System.out.println("= 기존 계좌 덮어쓰기가 완료되었습니다. =");
+								System.out.println("============================");
+								return;
+							} else if(choice2 == 2) {
+								System.out.println("= 신규 계좌 개설이 종료되었습니다. =");
+								System.out.println("============================");	
+								return;
+							} else {
+								System.out.println("정확한 메뉴를 선택하세요.");						
+							}
+						}			
+					} else if(nCheck == true) {
+						System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
+						System.out.println("============================");
+					}
 				} else if(accGrade.equalsIgnoreCase("B")) {
 					accType = "신용신뢰 계좌";
 					accGradeRest = 4;
 					System.out.println("추가 이율 : 4%");
-					accFinalRest = accInterest + accGradeRest;
-					bankAccount.add(high);
+					
+					accFinalRest = accInterest + accGradeRest;					
+					HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
+					boolean nCheck = bankAccount.add(high);
+					
+					if(nCheck == false) {
+						System.out.println("= 입력하신 계좌정보와 동일한 계좌를 찾았습니다. =");
+						for(Account acc : bankAccount) {
+							if(accNum.compareTo(acc.num)==0) {
+								acc.showAccInfo();
+								System.out.println("============================");
+							}
+						}
+						
+						int choice2 = 0;
+						boolean makeSelect = false;
+						
+						while(!makeSelect) {
+							System.out.println("= 원하시는 메뉴를 선택하세요. =");
+							System.out.println("");
+							System.out.println(" 1.기존 계좌에 덮어쓰기");
+							System.out.println(" 2.기존 계좌 유지 후 종료");
+							System.out.println("");
+							System.out.println("메뉴 선택 : ");
+							
+							Scanner scan2 = new Scanner(System.in);
+							choice2 = scan2.nextInt();
+							
+							if(choice2 == 1) {
+								bankAccount.remove(high);
+								bankAccount.add(high);
+								System.out.println("= 기존 계좌 덮어쓰기가 완료되었습니다. =");
+								System.out.println("============================");
+								return;
+							} else if(choice2 == 2) {
+								System.out.println("= 신규 계좌 개설이 종료되었습니다. =");
+								System.out.println("============================");	
+								return;
+							} else {
+								System.out.println("정확한 메뉴를 선택하세요.");						
+							}
+						}			
+					} else if(nCheck == true) {
+						System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
+						System.out.println("============================");
+					}
 				} else {
 					accType = "신용신뢰 계좌";
 					accGradeRest = 2;
 					System.out.println("추가 이율 : 2%");
+					
 					accFinalRest = accInterest + accGradeRest;
-					bankAccount.add(high);
+					HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
+					boolean nCheck = bankAccount.add(high);
+					
+					if(nCheck == false) {
+						System.out.println("= 입력하신 계좌정보와 동일한 계좌를 찾았습니다. =");
+						for(Account acc : bankAccount) {
+							if(accNum.compareTo(acc.num)==0) {
+								acc.showAccInfo();
+								System.out.println("============================");
+							}
+						}
+						
+						int choice2 = 0;
+						boolean makeSelect = false;
+						
+						while(!makeSelect) {
+							System.out.println("= 원하시는 메뉴를 선택하세요. =");
+							System.out.println("");
+							System.out.println(" 1.기존 계좌에 덮어쓰기");
+							System.out.println(" 2.기존 계좌 유지 후 종료");
+							System.out.println("");
+							System.out.println("메뉴 선택 : ");
+							
+							Scanner scan2 = new Scanner(System.in);
+							choice2 = scan2.nextInt();
+							
+							if(choice2 == 1) {
+								bankAccount.remove(high);
+								bankAccount.add(high);
+								System.out.println("= 기존 계좌 덮어쓰기가 완료되었습니다. =");
+								System.out.println("============================");
+								return;
+							} else if(choice2 == 2) {
+								System.out.println("= 신규 계좌 개설이 종료되었습니다. =");
+								System.out.println("============================");	
+								return;
+							} else {
+								System.out.println("정확한 메뉴를 선택하세요.");						
+							}
+						}			
+					} else if(nCheck == true) {
+						System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
+						System.out.println("============================");
+					}
 				}
 			}		
 		}
