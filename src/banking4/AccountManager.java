@@ -1,6 +1,7 @@
 package banking4;
 
-import java.io.IOException;
+
+import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ class AccountManager {
 		System.out.println(" 1.신규 계좌개설");
 		System.out.print(" 2.입금   ");
 		System.out.println("3.출금");
-		System.out.println(" 4.개설된 계좌 정보 출력 ");
+		System.out.println(" 4.개설된 계좌정보 출력 ");
 		System.out.println(" 5.프로그램 종료");
 		System.out.println("");
 		System.out.println("============================");
@@ -20,7 +21,7 @@ class AccountManager {
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		AccountManager handler = new AccountManager(100);
+		AccountManager handler = new AccountManager();
 		
 		boolean menuSelect = false;
 		
@@ -59,12 +60,10 @@ class AccountManager {
 		}
 	}
 
-	private Account[] bankAccount;
-	private int accountList;
+	HashSet<Account> bankAccount;
 	
-	public AccountManager(int num) {
-		bankAccount = new Account[num];
-		accountList = 0;
+	public AccountManager() {
+		bankAccount = new HashSet<Account>();
 	}
 	
 	String accNum, accName, accGrade, accType;
@@ -131,7 +130,8 @@ class AccountManager {
 			}
 
 			accFinalRest = accInterest + accGradeRest;
-			bankAccount[accountList++] = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
+			
+			HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
 			
 			System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
 			System.out.println("============================");
@@ -145,15 +145,15 @@ class AccountManager {
 		String searchName = scan.nextLine();
 		
 		try {
-			for(int i = 0 ; i<accountList ; i++) {
+			for(Account acc : bankAccount) {
 				
-				balanceInt = (int) (bankAccount[i].balance * (accInterest + accGradeRest) / 100);
+				balanceInt = (int) (acc.balance * (accInterest + accGradeRest) / 100);
 				
-				if(searchName.compareTo(bankAccount[i].num)==0) {
+				if(searchName.compareTo(acc.num)==0) {
 						
 					System.out.println("= 입력하신 계좌정보를 찾았습니다. =");
 					
-					bankAccount[i].showAccInfo();
+					acc.showAccInfo();
 					System.out.println("============================");
 	
 					System.out.println(" 입금액 : "); deposit = scan.nextInt();
@@ -164,12 +164,12 @@ class AccountManager {
 						System.out.println("입금은 500원 단위로만 가능합니다.");
 					} else {
 						System.out.println(" 입금액 : " + deposit);
-						System.out.println(" 기존 잔액 : " + bankAccount[i].balance); 
+						System.out.println(" 기존 잔액 : " + acc.balance); 
 						System.out.println(" 이자 : " + balanceInt); 
-						System.out.println(" 최종 잔액 : "+(bankAccount[i].balance + balanceInt + deposit)+"원");
+						System.out.println(" 최종 잔액 : "+(acc.balance + balanceInt + deposit)+"원");
 						System.out.println("============================");
 						
-						bankAccount[i].balance = bankAccount[i].balance + balanceInt + deposit;
+						acc.balance = acc.balance + balanceInt + deposit;
 					}
 					isFind = true;
 				}
@@ -194,16 +194,16 @@ class AccountManager {
 		String searchName = scan.nextLine();
 
 		try {
-			for(int i = 0 ; i<accountList ; i++) {
-				if(searchName.compareTo(bankAccount[i].num)==0) {
+			for(Account acc : bankAccount) {
+				if(searchName.compareTo(acc.num)==0) {
 					System.out.println("= 입력하신 계좌정보를 찾았습니다. =");
 	
-					bankAccount[i].showAccInfo();
+					acc.showAccInfo();
 					System.out.println("============================");
 					
 					System.out.println("출금액 : "); deposit = scan.nextInt();
 					
-					if (bankAccount[i].balance - deposit < 0) {
+					if (acc.balance - deposit < 0) {
 						int choice = 0;
 						boolean withdrawSelect = false;
 						
@@ -222,7 +222,7 @@ class AccountManager {
 								System.out.println("출금이 완료되었습니다.");
 								System.out.println(" 잔액 : 0원");
 								System.out.println("============================");
-								bankAccount[i].balance = 0;		
+								acc.balance = 0;		
 							} else {
 								System.out.println("출금이 취소되었습니다.");
 								return;
@@ -233,9 +233,9 @@ class AccountManager {
 					} else if (deposit % 1000 > 0) {
 						System.out.println("출금은 1000원 단위로만 가능합니다.");
 					} else {					
-						System.out.println(" 잔액 : "+(bankAccount[i].balance - deposit)+"원");
+						System.out.println(" 잔액 : "+(acc.balance - deposit)+"원");
 						System.out.println("============================");
-						bankAccount[i].balance = bankAccount[i].balance - deposit;		
+						acc.balance = acc.balance - deposit;		
 					}
 					isFind = true;
 				}
@@ -249,8 +249,8 @@ class AccountManager {
 		}
 	}
 	public void showAccInfo() {
-		for(int i = 0 ; i<accountList ; i++) {
-			bankAccount[i].showAccInfo();
+		for(Account acc : bankAccount) {
+			acc.showAccInfo();
 		}
 		System.out.println("=== 전체 정보가 출력되었습니다. ===");
 		System.out.println("============================");

@@ -1,6 +1,5 @@
 package banking3;
 
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,7 +11,7 @@ class AccountManager {
 		System.out.println(" 1.신규 계좌개설");
 		System.out.print(" 2.입금   ");
 		System.out.println("3.출금");
-		System.out.println(" 4.개설된 계좌 정보 출력 ");
+		System.out.println(" 4.개설된 계좌정보 출력 ");
 		System.out.println(" 5.프로그램 종료");
 		System.out.println("");
 		System.out.println("============================");
@@ -133,6 +132,7 @@ class AccountManager {
 			accFinalRest = accInterest + accGradeRest;
 			bankAccount[accountList++] = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
 			
+			showAccInfo();
 			System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
 			System.out.println("============================");
 		}

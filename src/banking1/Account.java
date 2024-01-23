@@ -27,7 +27,7 @@ class AccountManager {
 		System.out.println(" 1.신규 계좌개설    ");
 		System.out.print(" 2.입금   ");
 		System.out.println("3.출금");
-		System.out.println(" 4.개설된 계좌 정보 출력 ");
+		System.out.println(" 4.개설된 계좌정보 출력 ");
 		System.out.println(" 5.프로그램 종료");
 		System.out.println("");
 		System.out.println("============================");
