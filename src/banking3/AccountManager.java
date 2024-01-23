@@ -124,10 +124,13 @@ class AccountManager {
 					accType = "신용신뢰 계좌";
 					accGradeRest = 4;
 					System.out.println("추가 이율 : 4%");
-				} else {
+				} else if(accGrade.equalsIgnoreCase("C")) {
 					accType = "신용신뢰 계좌";
 					accGradeRest = 2;
 					System.out.println("추가 이율 : 2%");
+				} else {
+					System.out.println("신용도를 정확하게 입력해주세요.");
+					return;
 				}
 			}
 

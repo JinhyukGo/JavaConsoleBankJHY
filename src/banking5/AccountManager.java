@@ -1,6 +1,10 @@
-package banking4;
+package banking5;
 
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -51,6 +55,11 @@ class AccountManager {
 						break;
 					case 6:
 						System.out.println("프로그램 종료");
+						BufferedWriter out = new BufferedWriter(new FileWriter("src/banking5/AccountInfo.obj"));
+					//	out.write(bankAccount);
+						out.close();
+						System.out.println("AccountInfo.obj 파일 저장이 완료되었습니다.");
+						System.out.println("============================");
 						return;
 					}
 				
@@ -62,6 +71,10 @@ class AccountManager {
 			} catch(InputMismatchException e) {
 				System.out.println("메뉴는 숫자로만 입력가능합니다.");
 				scan.nextLine();
+			} catch (FileNotFoundException e) {
+				System.out.println("저장된 파일이 없습니다.");
+			} catch (IOException e) {
+				System.out.println("IO에러가 발생했습니다.");
 			}
 		}
 	}
