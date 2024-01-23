@@ -53,7 +53,7 @@ class AccountManager {
 				break;
 			case 4:
 				handler.showAccInfo();
-				System.out.println("=== 전체 정보 출력이 완료되었습니다. ===");
+				System.out.println("= 전체 정보 출력이 완료되었습니다. =");
 				System.out.println("============================");
 				break;
 			case 5:

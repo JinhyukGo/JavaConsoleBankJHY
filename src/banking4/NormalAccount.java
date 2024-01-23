@@ -18,4 +18,17 @@ public class NormalAccount extends Account {
 		System.out.println(" 신용도 : " + grade);
 		System.out.println(" 계좌타입 : "+ type);
 	}
+	@Override
+	public int hashCode() {
+		return super.num.hashCode();
+	}
+	@Override
+	public boolean equals(Object obj) {
+		NormalAccount accountobj = (NormalAccount) obj;
+		if(accountobj.num.equals(super.num)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

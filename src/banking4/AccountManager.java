@@ -42,7 +42,7 @@ class AccountManager {
 						break;
 					case 4:
 						handler.showAccInfo();
-						System.out.println("=== 전체 정보 출력이 완료되었습니다. ===");
+						System.out.println("= 전체 정보 출력이 완료되었습니다. =");
 						System.out.println("============================");
 						break;
 					case 5:
@@ -97,85 +97,82 @@ class AccountManager {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("계좌번호 : "); accNum = scan.nextLine();
 		
-		String searchName2 = scan.nextLine();
-
-		for(Account acc : bankAccount) {
-			if(searchName2.compareTo(acc.num)==0) {
-				
-				System.out.println("= 입력하신 계좌정보와 동일한 계좌를 찾았습니다. =");
-				
-				acc.showAccInfo();
-				System.out.println("============================");
-				
-				int choice2 = 0;
-				boolean makeSelect = false;
-	
-				while(!makeSelect) {
-					System.out.println("= 원하시는 메뉴를 선택하세요. =");
-					System.out.println("");
-					System.out.println(" 1.기존 계좌에 덮어쓰기");
-					System.out.println(" 2.기존 계좌 유지 후 종료");
-					System.out.println("");
-					System.out.println("메뉴 선택 : ");
-					
-					Scanner scan2 = new Scanner(System.in);
-					choice2 = scan2.nextInt();
-					
-					if(choice2 == 1 || choice2 == 2) {
-						makeSelect = true;
-					} else {
-						System.out.println("정확한 메뉴를 선택하세요.");
-					}
-				}
-			} else {
-				System.out.println("이름 : "); accName = scan.nextLine();
-				System.out.println("입금 : "); accBalance = scan.nextInt();
-				
-				if(accBalance < 0) {
-					System.out.println("입금액은 음수가 될 수 없습니다.");
-				} else if (accBalance % 500 > 0) {
-					System.out.println("입금은 500원 단위로만 가능합니다.");
-				} else {	
-					System.out.println("이율 : "); accInterest = scan.nextInt();
-					scan.nextLine();	
-				}
-			}
-		}
-		if(choice == 1) {
-			accType = "보통 계좌";
-			accGrade = "없음";
-			NormalAccount normal = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
-			bankAccount.add(normal);
-		}
-		if(choice == 2) {
-			System.out.println("신용도 : "); accGrade = scan.nextLine();
+		HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
 		
-			if(accGrade.equalsIgnoreCase("A")) {
-				accType = "신용신뢰 계좌";
-				accGradeRest = 7;
-				System.out.println("추가 이율 : 7%");
-				accFinalRest = accInterest + accGradeRest;
-				HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
-				bankAccount.add(high);
-			} else if(accGrade.equalsIgnoreCase("B")) {
-				accType = "신용신뢰 계좌";
-				accGradeRest = 4;
-				System.out.println("추가 이율 : 4%");
-				accFinalRest = accInterest + accGradeRest;
-				HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
-				bankAccount.add(high);
-			} else {
-				accType = "신용신뢰 계좌";
-				accGradeRest = 2;
-				System.out.println("추가 이율 : 2%");
-				accFinalRest = accInterest + accGradeRest;
-				HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
-				bankAccount.add(high);
+		if(bankAccount.contains(high)) {
+			System.out.println("= 입력하신 계좌정보와 동일한 계좌를 찾았습니다. =");
+			for(Account acc : bankAccount) {
+				acc.showAccInfo();
 			}
+			
+			int choice2 = 0;
+			boolean makeSelect = false;
+
+			while(!makeSelect) {
+				System.out.println("= 원하시는 메뉴를 선택하세요. =");
+				System.out.println("");
+				System.out.println(" 1.기존 계좌에 덮어쓰기");
+				System.out.println(" 2.기존 계좌 유지 후 종료");
+				System.out.println("");
+				System.out.println("메뉴 선택 : ");
+				
+				Scanner scan2 = new Scanner(System.in);
+				choice2 = scan2.nextInt();
+				
+				if(choice2 == 1 || choice2 == 2) {
+					makeSelect = true;
+				} else {
+					System.out.println("정확한 메뉴를 선택하세요.");
+				}
+			}
+			
+			System.out.println("============================");
+		} else {
+			System.out.println("이름 : "); accName = scan.nextLine();
+			System.out.println("입금 : "); accBalance = scan.nextInt();
+			
+			if(accBalance < 0) {
+				System.out.println("입금액은 음수가 될 수 없습니다.");
+			} else if (accBalance % 500 > 0) {
+				System.out.println("입금은 500원 단위로만 가능합니다.");
+			} else {	
+				System.out.println("이율 : "); accInterest = scan.nextInt();
+				scan.nextLine();	
+			}
+			
+			if(choice == 1) {
+				accType = "보통 계좌";
+				accGrade = "없음";
+				NormalAccount normal = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
+				bankAccount.add(normal);
+			}
+			if(choice == 2) {
+				System.out.println("신용도 : "); accGrade = scan.nextLine();
+			
+				if(accGrade.equalsIgnoreCase("A")) {
+					accType = "신용신뢰 계좌";
+					accGradeRest = 7;
+					System.out.println("추가 이율 : 7%");
+					accFinalRest = accInterest + accGradeRest;
+					bankAccount.add(high);
+				} else if(accGrade.equalsIgnoreCase("B")) {
+					accType = "신용신뢰 계좌";
+					accGradeRest = 4;
+					System.out.println("추가 이율 : 4%");
+					accFinalRest = accInterest + accGradeRest;
+					bankAccount.add(high);
+				} else {
+					accType = "신용신뢰 계좌";
+					accGradeRest = 2;
+					System.out.println("추가 이율 : 2%");
+					accFinalRest = accInterest + accGradeRest;
+					bankAccount.add(high);
+				}
+			}
+		
+			System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
+			System.out.println("============================");
 		}
-	
-		System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
-		System.out.println("============================");
 	}
 	public void depositMoney() {
 			
