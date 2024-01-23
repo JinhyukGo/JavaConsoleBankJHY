@@ -36,6 +36,8 @@ class AccountManager {
 				break;
 			case 4:
 				handler.showAccInfo();
+				System.out.println("=== 전체 정보 출력이 완료되었습니다. ===");
+				System.out.println("============================");
 				break;
 			case 5:
 				System.out.println("프로그램 종료");
@@ -184,7 +186,5 @@ class AccountManager {
 		for(int i = 0 ; i<accountList ; i++) {
 			bankAccount[i].showAccInfo();
 		}
-		System.out.println("=== 전체 정보가 출력되었습니다. ===");
-		System.out.println("============================");
 	}
 }
