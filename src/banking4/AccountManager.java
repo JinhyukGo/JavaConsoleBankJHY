@@ -97,12 +97,18 @@ class AccountManager {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("계좌번호 : "); accNum = scan.nextLine();
 		
+		NormalAccount normal = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
 		HighCreditAccount high = new HighCreditAccount(accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
 		
-		if(bankAccount.contains(high)) {
+		boolean bnum = bankAccount.add(high);
+		
+		if(bnum == false) {
 			System.out.println("= 입력하신 계좌정보와 동일한 계좌를 찾았습니다. =");
 			for(Account acc : bankAccount) {
+				if(accNum.compareTo(acc.num)==0) {
 				acc.showAccInfo();
+				System.out.println("============================");
+				}
 			}
 			
 			int choice2 = 0;
@@ -143,7 +149,6 @@ class AccountManager {
 			if(choice == 1) {
 				accType = "보통 계좌";
 				accGrade = "없음";
-				NormalAccount normal = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
 				bankAccount.add(normal);
 			}
 			if(choice == 2) {
