@@ -386,8 +386,8 @@ class AccountManager {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/banking5/AccountInfo.obj"));
 			for(Account acc : bankAccount) {
 				out.writeObject(acc);
-				System.out.println("AccountInfo.obj 파일 저장이 완료되었습니다.");
 			} 
+			System.out.println("AccountInfo.obj 파일 저장이 완료되었습니다.");
 			out.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("저장된 파일이 없습니다.");
@@ -415,7 +415,9 @@ class AccountManager {
 		} finally {
 			try {
 				in.close();
-			} catch (IOException e) {
+			} catch(NullPointerException e) {
+				System.out.println("");	
+			} catch(IOException e) {
 				e.printStackTrace();
 			}
 		}

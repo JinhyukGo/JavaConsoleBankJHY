@@ -14,8 +14,10 @@ public class AutoSaveAccount extends Thread {
 				am.saveAccount();
 				sleep(3000);
 			}
+		} catch(NullPointerException e) {
+			System.out.println("= Test =");
 		} catch(InterruptedException e) {
-			e.printStackTrace();
+			System.out.println("= Test =");
 		}
 	}
 }

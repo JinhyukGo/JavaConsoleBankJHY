@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import ex20io.AutoSaveAccount;
+
 class AccountManager {
 	
 	public static void showMenu() {
@@ -23,7 +25,7 @@ class AccountManager {
 		System.out.println("3.출금");
 		System.out.println(" 4.기존 계좌 삭제 ");
 		System.out.println(" 5.개설된 계좌정보 출력 ");
-		System.out.println(" 6.파일 저장 옵션 ");		
+		System.out.println(" 6.계좌정보 저장 옵션");
 		System.out.println(" 7.프로그램 종료");
 		System.out.println("");
 		System.out.println("============================");
@@ -61,7 +63,7 @@ class AccountManager {
 						System.out.println("============================");
 						break;
 					case 6:
-						handler.saveAccount();
+						handler.saveOption(null);
 						System.out.println("=== 프로그램이 종료되었습니다. ===");
 						System.out.println("============================");
 						return;
@@ -392,8 +394,8 @@ class AccountManager {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/banking5/AccountInfo.obj"));
 			for(Account acc : bankAccount) {
 				out.writeObject(acc);
-				System.out.println("AccountInfo.obj 파일 저장이 완료되었습니다.");
 			} 
+			System.out.println("AccountInfo.obj 파일 저장이 완료되었습니다.");
 			out.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("저장된 파일이 없습니다.");
@@ -421,10 +423,38 @@ class AccountManager {
 		} finally {
 			try {
 				in.close();
-			} catch (IOException e) {
+			} catch(NullPointerException e) {
+				System.out.println("");	
+			} catch(IOException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	public void saveOption(AutoSaveAccount asa) {
+		System.out.println("= 원하는 저장 옵션을 선택하세요. =");
+		System.out.print(" 1.자동 저장 On   ");
+		System.out.println("2.자동 저장 Off");
+		System.out.println("");
+		System.out.println("============================");
+		
+		Scanner scan = new Scanner(System.in);
+		int choice = scan.nextInt();
+		if(choice==1) {
+			if(!asa.isAlive()) {
+				asa.setDaemon(true);
+				asa.start();
+				System.out.println("= 데이터 자동저장이 활성화되었습니다. =");
+			} else {
+				System.out.println("= 이미 데이터 자동저장이 실행중입니다. =");
+			}
+		} else if(choice==2) {
+			if(!asa.isAlive()) {
+				asa.interrupt();
+				System.out.println("= 데이터 자동저장이 종료되었습니다. =");
+			} else {
+				System.out.println("= 데이터 자동저장을 사용하지 않고 있습니다. =");
+			}
+		}		
 	}
 	public void depositMoney() {
 			
