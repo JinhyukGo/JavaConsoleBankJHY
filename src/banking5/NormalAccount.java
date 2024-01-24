@@ -1,5 +1,6 @@
 package banking5;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 public class NormalAccount extends Account {

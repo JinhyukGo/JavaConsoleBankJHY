@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashSet;
@@ -406,6 +407,8 @@ class AccountManager {
 			System.out.println("저장된 파일이 없습니다.");
 		} catch(EOFException e) {
 			System.out.println("파일의 복원이 완료되었습니다.");
+		} catch(NotSerializableException e) {
+			System.out.println("파일의 복원이 완료되었습니다.");			
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("예외가 발생하였습니다.");
