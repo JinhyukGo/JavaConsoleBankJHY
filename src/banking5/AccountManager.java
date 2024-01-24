@@ -1,10 +1,13 @@
 package banking5;
 
 
-import java.io.BufferedWriter;
+import java.io.EOFException;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -30,6 +33,8 @@ class AccountManager {
 		
 		boolean menuSelect = false;
 		
+		handler.readAccount();
+		
 		while(true) {
 			try {		
 				showMenu();
@@ -54,11 +59,8 @@ class AccountManager {
 						System.out.println("============================");
 						break;
 					case 6:
-						System.out.println("프로그램 종료");
-						BufferedWriter out = new BufferedWriter(new FileWriter("src/banking5/AccountInfo.obj"));
-					//	out.write(bankAccount);
-						out.close();
-						System.out.println("AccountInfo.obj 파일 저장이 완료되었습니다.");
+						handler.saveAccount();
+						System.out.println("=== 프로그램이 종료되었습니다. ===");
 						System.out.println("============================");
 						return;
 					}
@@ -71,10 +73,6 @@ class AccountManager {
 			} catch(InputMismatchException e) {
 				System.out.println("메뉴는 숫자로만 입력가능합니다.");
 				scan.nextLine();
-			} catch (FileNotFoundException e) {
-				System.out.println("저장된 파일이 없습니다.");
-			} catch (IOException e) {
-				System.out.println("IO에러가 발생했습니다.");
 			}
 		}
 	}
@@ -381,6 +379,43 @@ class AccountManager {
 			System.out.println("= 삭제할 계좌 정보를 확인해주세요. =");
 			System.out.println("============================");
 		}	
+	}
+	public void saveAccount() {
+		try {
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/banking5/AccountInfo.obj"));
+			for(Account acc : bankAccount) {
+				out.writeObject(acc);
+				System.out.println("AccountInfo.obj 파일 저장이 완료되었습니다.");
+			} 
+			out.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("저장된 파일이 없습니다.");
+		} catch (IOException e) {
+			System.out.println("IO에러가 발생했습니다.");
+		}
+	}
+	public void readAccount() {
+		ObjectInputStream in = null;
+		try {
+			in = new ObjectInputStream(new FileInputStream("src/banking5/AccountInfo.obj"));
+			while(true) {
+				Account acc = (Account)in.readObject();
+				bankAccount.add(acc);
+			}
+		} catch(FileNotFoundException e) {
+			System.out.println("저장된 파일이 없습니다.");
+		} catch(EOFException e) {
+			System.out.println("파일의 복원이 완료되었습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("예외가 발생하였습니다.");
+		} finally {
+			try {
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	public void depositMoney() {
 			
