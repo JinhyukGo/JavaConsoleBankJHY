@@ -1,14 +1,17 @@
-package banking6;
+package banking7;
 
 
+import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -102,13 +105,14 @@ class AccountManager {
 			System.out.println("");
 			System.out.println(" 1.보통 계좌");
 			System.out.println(" 2.신용신뢰 계좌");
+			System.out.println(" 3.특판 계좌");
 			System.out.println("");
 			System.out.println("계좌 선택 : ");
 			
 			Scanner scan = new Scanner(System.in);
 			choice = scan.nextInt();
 			
-			if(choice == 1 || choice == 2) {
+			if(choice == 1 || choice == 2 || choice == 3) {
 				gradeSelect = true;
 			} else {
 				System.out.println("정확한 종류를 선택하세요.");
@@ -176,9 +180,7 @@ class AccountManager {
 					System.out.println("= 신규 계좌 개설이 완료되었습니다. =");
 					System.out.println("============================");
 				}	
-			}
-		
-			if(choice == 2) {
+			} else if(choice == 2) {
 				System.out.println("신용도 : "); accGrade = scan.nextLine();
 			
 				if(accGrade.equalsIgnoreCase("A")) {
@@ -335,7 +337,52 @@ class AccountManager {
 					System.out.println("신용도를 정확하게 입력해주세요.");
 					return;
 				}
-			}		
+			} else if(choice == 3) {
+				accType = "특판 계좌";
+				accGrade = "없음";
+
+				NormalAccount normal = new NormalAccount(accNum, accName, accBalance, accInterest, accGrade, accType);
+				boolean nCheck = bankAccount.add(normal);
+				
+				if(nCheck == false) {
+					System.out.println("= 입력하신 계좌정보와 동일한 계좌를 찾았습니다. =");
+					for(Account acc : bankAccount) {
+						if(accNum.compareTo(acc.num)==0) {
+							acc.showAccInfo();
+							System.out.println("============================");
+						}
+					}
+					
+					int choice2 = 0;
+					boolean makeSelect = false;
+					
+					while(!makeSelect) {
+						System.out.println("= 원하시는 메뉴를 선택하세요. =");
+						System.out.println("");
+						System.out.println(" 1.기존 계좌에 덮어쓰기");
+						System.out.println(" 2.기존 계좌 유지 후 종료");
+						System.out.println("");
+						System.out.println("메뉴 선택 : ");
+						
+						Scanner scan2 = new Scanner(System.in);
+						choice2 = scan2.nextInt();
+						
+						if(choice2 == 1) {
+							bankAccount.remove(normal);
+							bankAccount.add(normal);
+							System.out.println("= 기존 계좌 덮어쓰기가 완료되었습니다. =");
+							System.out.println("============================");
+							return;
+						} else if(choice2 == 2) {
+							System.out.println("= 신규 계좌 개설이 종료되었습니다. =");
+							System.out.println("============================");	
+							return;
+						} else {
+							System.out.println("정확한 메뉴를 선택하세요.");						
+						}
+					}	
+				}
+			}
 		}
 	}
 	public void deleteAccount() {
@@ -388,7 +435,7 @@ class AccountManager {
 	}
 	public void saveAccount() {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/banking6/AccountInfo.obj"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/banking7/AccountInfo.obj"));
 			for(Account acc : bankAccount) {
 				out.writeObject(acc);
 			} 
@@ -403,7 +450,7 @@ class AccountManager {
 	public void readAccount() {
 		ObjectInputStream in = null;
 		try {
-			in = new ObjectInputStream(new FileInputStream("src/banking6/AccountInfo.obj"));
+			in = new ObjectInputStream(new FileInputStream("src/banking7/AccountInfo.obj"));
 			while(true) {
 				Account acc = (Account)in.readObject();
 				bankAccount.add(acc);
@@ -459,8 +506,21 @@ class AccountManager {
 			asa = new AutoSaveAccount();
 			asa.setDaemon(true);
 			asa.start();
+			try {
+				PrintWriter out = new PrintWriter(new FileWriter("src/banking7/AutoSaveAccount.txt"));
+				out.printf("계좌번호 : %s", "이름 : %s", "잔액 : %d", "이율 : %d", "신용도 : %s", "계좌타입 : %s", "추가이율 : %d", "최종이율 : %d", accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
+				out.close();
+			} catch (FileNotFoundException e1) {
+				System.out.println("저장된 파일이 없습니다.");
+			} catch (IOException e1) {
+				System.out.println("IO에러가 발생했습니다.");
+			}
 		}		
 	}
+	
+	int depositCount = 1;
+	int specialInterest = 500;
+	
 	public void depositMoney() {
 			
 		boolean isFind = false;
@@ -470,7 +530,7 @@ class AccountManager {
 		
 		try {
 			for(Account acc : bankAccount) {
-				
+								
 				balanceInt = (int) (acc.balance * (accInterest + accGradeRest) / 100);
 				
 				if(searchName.compareTo(acc.num)==0) {
@@ -486,14 +546,26 @@ class AccountManager {
 						System.out.println("입금액은 음수가 될 수 없습니다.");
 					} else if (deposit % 500 > 0) {
 						System.out.println("입금은 500원 단위로만 가능합니다.");
-					} else {
+					} else {					
 						System.out.println(" 입금액 : " + deposit);
 						System.out.println(" 기존 잔액 : " + acc.balance); 
 						System.out.println(" 이자 : " + balanceInt); 
-						System.out.println(" 최종 잔액 : "+(acc.balance + balanceInt + deposit)+"원");
-						System.out.println("============================");
-						
-						acc.balance = acc.balance + balanceInt + deposit;
+				
+						if(depositCount%2 == 0) {
+							System.out.println(depositCount + "번째 입금이 완료되어 특별이자가 지급됩니다.");
+							System.out.println(" 특별이자 : " + specialInterest); 					
+							System.out.println(" 최종 잔액 : "+(acc.balance + balanceInt + deposit + specialInterest)+"원");
+							System.out.println("============================");
+							
+							acc.balance = acc.balance + balanceInt + deposit + specialInterest;
+						} else {
+							System.out.println(depositCount + "번째 입금이 완료되었습니다.");
+							System.out.println(" 최종 잔액 : "+(acc.balance + balanceInt + deposit)+"원");
+							System.out.println("============================");		
+							
+							acc.balance = acc.balance + balanceInt + deposit;
+						}
+						depositCount = depositCount + 1;
 					}
 					isFind = true;
 				}
