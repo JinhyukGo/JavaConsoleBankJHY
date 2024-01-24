@@ -408,9 +408,9 @@ class AccountManager {
 		} catch(EOFException e) {
 			System.out.println("파일의 복원이 완료되었습니다.");
 		} catch(NotSerializableException e) {
-			System.out.println("파일의 복원이 완료되었습니다.");			
+			System.out.println("파일의 직렬화에 실패하였습니다.");			
 		} catch(Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			System.out.println("예외가 발생하였습니다.");
 		} finally {
 			try {
