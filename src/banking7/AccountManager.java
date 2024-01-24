@@ -1,7 +1,6 @@
 package banking7;
 
 
-import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,7 +16,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class AccountManager {
-	AutoSaveAccount asa = null;
+	AutoSaver as = null;
 	public static void showMenu() {
 		System.out.println("=== 원하시는 메뉴를 선택하세요. ===");
 		System.out.println("");
@@ -447,6 +446,20 @@ class AccountManager {
 			System.out.println("IO에러가 발생했습니다.");
 		}
 	}
+	public void autoSave() {
+		try {
+			PrintWriter out = new PrintWriter(new FileWriter("src/banking7/AutoSaveAccount.txt"));
+			for(Account acc : bankAccount) {
+				out.printf("계좌번호 : %s, 이름 : %s, 잔고 : %d, 이율 : %d, 신용도 : %s, 계좌타입 : %s, 추가 이율 : %d, 최종 이율 : ", accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
+			}
+			System.out.println("AutoSaveAccount.txt 파일 저장이 완료되었습니다.");
+			out.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("저장된 파일이 없습니다.");
+		} catch (IOException e) {
+			System.out.println("IO에러가 발생했습니다.");
+		}
+	}
 	public void readAccount() {
 		ObjectInputStream in = null;
 		try {
@@ -485,17 +498,17 @@ class AccountManager {
 		int choice = scan.nextInt();
 		try {
 			if(choice==1) {
-				if(!asa.isAlive()) {
+				if(!as.isAlive()) {
 					System.out.println("= 데이터 자동저장이 활성화되었습니다. =");
-					asa = new AutoSaveAccount();
-					asa.setDaemon(true);
-					asa.start();
+					as = new AutoSaver();
+					as.setDaemon(true);
+					as.start();
 				} else {
 					System.out.println("= 이미 데이터 자동저장이 실행중입니다. =");
 				}
 			} else if(choice==2) {
-				if(asa.isAlive()) {
-					asa.interrupt();
+				if(as.isAlive()) {
+					as.interrupt();
 					System.out.println("= 데이터 자동저장이 종료되었습니다. =");
 				} else {
 					System.out.println("= 데이터 자동저장을 사용하지 않고 있습니다. =");
@@ -503,18 +516,9 @@ class AccountManager {
 			}
 		} catch(Exception e) {
 			System.out.println("= 데이터 자동저장이 활성화되었습니다. =");
-			asa = new AutoSaveAccount();
-			asa.setDaemon(true);
-			asa.start();
-			try {
-				PrintWriter out = new PrintWriter(new FileWriter("src/banking7/AutoSaveAccount.txt"));
-				out.printf("계좌번호 : %s", "이름 : %s", "잔액 : %d", "이율 : %d", "신용도 : %s", "계좌타입 : %s", "추가이율 : %d", "최종이율 : %d", accNum, accName, accBalance, accInterest, accGrade, accType, accGradeRest, accFinalRest);
-				out.close();
-			} catch (FileNotFoundException e1) {
-				System.out.println("저장된 파일이 없습니다.");
-			} catch (IOException e1) {
-				System.out.println("IO에러가 발생했습니다.");
-			}
+			as = new AutoSaver();
+			as.setDaemon(true);
+			as.start();
 		}		
 	}
 	

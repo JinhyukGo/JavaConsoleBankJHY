@@ -1,10 +1,10 @@
 package banking7;
 
-public class AutoSaveAccount extends Thread {
+public class AutoSaver extends Thread {
 	
 	AccountManager am;
 	
-	public AutoSaveAccount() {
+	public AutoSaver() {
 		am = new AccountManager();
 		this.am = am;
 	}
@@ -12,7 +12,7 @@ public class AutoSaveAccount extends Thread {
 	public void run() {
 		try {
 			while(true) {
-				am.saveAccount();
+				am.autoSave();
 				sleep(3000);
 			}
 		} catch(NullPointerException e) {
