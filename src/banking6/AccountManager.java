@@ -455,6 +455,7 @@ class AccountManager {
 				}
 			}
 		} catch(Exception e) {
+			System.out.println("= 데이터 자동저장이 활성화되었습니다. =");
 			asa = new AutoSaveAccount();
 			asa.setDaemon(true);
 			asa.start();
