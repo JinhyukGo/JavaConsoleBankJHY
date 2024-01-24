@@ -555,21 +555,29 @@ class AccountManager {
 						System.out.println(" 기존 잔액 : " + acc.balance); 
 						System.out.println(" 이자 : " + balanceInt); 
 				
-						if(depositCount%2 == 0) {
-							System.out.println(depositCount + "번째 입금이 완료되어 특별이자가 지급됩니다.");
-							System.out.println(" 특별이자 : " + specialInterest); 					
-							System.out.println(" 최종 잔액 : "+(acc.balance + balanceInt + deposit + specialInterest)+"원");
-							System.out.println("============================");
-							
-							acc.balance = acc.balance + balanceInt + deposit + specialInterest;
-						} else {
-							System.out.println(depositCount + "번째 입금이 완료되었습니다.");
+						if(accType.equalsIgnoreCase("보통 계좌") || accType.equalsIgnoreCase("신용신뢰 계좌")) {
 							System.out.println(" 최종 잔액 : "+(acc.balance + balanceInt + deposit)+"원");
 							System.out.println("============================");		
 							
 							acc.balance = acc.balance + balanceInt + deposit;
+
+						} else {
+							if(depositCount%2 == 0) {
+								System.out.println(depositCount + "번째 입금이 완료되어 특별이자가 지급됩니다.");
+								System.out.println(" 특별이자 : " + specialInterest); 					
+								System.out.println(" 최종 잔액 : "+(acc.balance + balanceInt + deposit + specialInterest)+"원");
+								System.out.println("============================");
+								
+								acc.balance = acc.balance + balanceInt + deposit + specialInterest;
+							} else {
+								System.out.println(depositCount + "번째 입금이 완료되었습니다.");
+								System.out.println(" 최종 잔액 : "+(acc.balance + balanceInt + deposit)+"원");
+								System.out.println("============================");		
+								
+								acc.balance = acc.balance + balanceInt + deposit;
+							}
+							depositCount = depositCount + 1;							
 						}
-						depositCount = depositCount + 1;
 					}
 					isFind = true;
 				}
