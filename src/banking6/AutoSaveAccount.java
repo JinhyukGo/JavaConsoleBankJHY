@@ -4,7 +4,8 @@ public class AutoSaveAccount extends Thread {
 	
 	AccountManager am;
 	
-	public AutoSaveAccount(AccountManager am) {
+	public AutoSaveAccount() {
+		am = new AccountManager();
 		this.am = am;
 	}
 	@Override

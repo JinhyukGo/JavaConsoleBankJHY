@@ -13,10 +13,8 @@ import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import ex20io.AutoSaveAccount;
-
 class AccountManager {
-	
+	AutoSaveAccount asa = null;
 	public static void showMenu() {
 		System.out.println("=== 원하시는 메뉴를 선택하세요. ===");
 		System.out.println("");
@@ -63,10 +61,9 @@ class AccountManager {
 						System.out.println("============================");
 						break;
 					case 6:
-						handler.saveOption(null);
-						System.out.println("=== 프로그램이 종료되었습니다. ===");
+						handler.saveOption();
 						System.out.println("============================");
-						return;
+						break;
 					case 7:
 						handler.saveAccount();
 						System.out.println("=== 프로그램이 종료되었습니다. ===");
@@ -74,10 +71,10 @@ class AccountManager {
 						return;
 					}
 				
-				if(choice == 1 || choice == 2 || choice == 3 || choice == 4 || choice == 5) {
+				if(choice == 1 || choice == 2 || choice == 3 || choice == 4 || choice == 5 || choice == 6 || choice == 7) {
 					menuSelect = true;
 				} else {
-					System.out.println("1부터 5까지의 숫자 중 하나를 선택하세요.");
+					System.out.println("1부터 7까지의 숫자 중 하나를 선택하세요.");
 				}
 			} catch(InputMismatchException e) {
 				System.out.println("메뉴는 숫자로만 입력가능합니다.");
@@ -430,8 +427,8 @@ class AccountManager {
 			}
 		}
 	}
-	public void saveOption(AutoSaveAccount asa) {
-		System.out.println("= 원하는 저장 옵션을 선택하세요. =");
+	public void saveOption() {
+		System.out.println("== 원하는 저장 옵션을 선택하세요. ==");
 		System.out.print(" 1.자동 저장 On   ");
 		System.out.println("2.자동 저장 Off");
 		System.out.println("");
@@ -439,21 +436,28 @@ class AccountManager {
 		
 		Scanner scan = new Scanner(System.in);
 		int choice = scan.nextInt();
-		if(choice==1) {
-			if(!asa.isAlive()) {
-				asa.setDaemon(true);
-				asa.start();
-				System.out.println("= 데이터 자동저장이 활성화되었습니다. =");
-			} else {
-				System.out.println("= 이미 데이터 자동저장이 실행중입니다. =");
+		try {
+			if(choice==1) {
+				if(!asa.isAlive()) {
+					System.out.println("= 데이터 자동저장이 활성화되었습니다. =");
+					asa = new AutoSaveAccount();
+					asa.setDaemon(true);
+					asa.start();
+				} else {
+					System.out.println("= 이미 데이터 자동저장이 실행중입니다. =");
+				}
+			} else if(choice==2) {
+				if(asa.isAlive()) {
+					asa.interrupt();
+					System.out.println("= 데이터 자동저장이 종료되었습니다. =");
+				} else {
+					System.out.println("= 데이터 자동저장을 사용하지 않고 있습니다. =");
+				}
 			}
-		} else if(choice==2) {
-			if(!asa.isAlive()) {
-				asa.interrupt();
-				System.out.println("= 데이터 자동저장이 종료되었습니다. =");
-			} else {
-				System.out.println("= 데이터 자동저장을 사용하지 않고 있습니다. =");
-			}
+		} catch(Exception e) {
+			asa = new AutoSaveAccount();
+			asa.setDaemon(true);
+			asa.start();
 		}		
 	}
 	public void depositMoney() {
