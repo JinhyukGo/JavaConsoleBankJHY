@@ -551,11 +551,12 @@ class AccountManager {
 					} else if (deposit % 500 > 0) {
 						System.out.println("입금은 500원 단위로만 가능합니다.");
 					} else {					
-						System.out.println(" 입금액 : " + deposit);
-						System.out.println(" 기존 잔액 : " + acc.balance); 
-						System.out.println(" 이자 : " + balanceInt); 
+						System.out.println(" 입금액 : " + deposit + "원");
+						System.out.println(" 기존 잔액 : " + acc.balance + "원");
+						System.out.println(" 최종 이율 : " + (accInterest + accGradeRest) + "%");
+						System.out.println(" 이자 : " + balanceInt + "원"); 
 				
-						if(accType.equalsIgnoreCase("보통 계좌") || accType.equalsIgnoreCase("신용신뢰 계좌")) {
+						if(accType.equals("보통 계좌") || accType.equals("신용신뢰 계좌")) {
 							System.out.println(" 최종 잔액 : "+(acc.balance + balanceInt + deposit)+"원");
 							System.out.println("============================");		
 							
